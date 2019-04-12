@@ -190,7 +190,7 @@ extension UIViewController {
         }
         set {
             objc_setAssociatedObject(self, &isNavigationBarShadowImageHiddenAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
-//            navigationController?.setNeedsNavigationBarUpdate(hideShadowImage: newValue)
+            navigationController?.setNeedsNavigationBarUpdate(isHidedShadowImage: newValue)
         }
     }
     
@@ -235,18 +235,22 @@ extension UIViewController {
     @objc private func swizzledViewWillAppear(_ animated: Bool) {
         if canUpdateNavigationBar {
             isPushToNextViewControllerFinished = false
-//            navigationController?.setNeedsNavigationBarUpdate(tintColor: navBarTintColor)
-//            navigationController?.setNeedsNavigationBarUpdate(titleColor: navBarTitleColor)
+            navigationController?.setNeedsNavigationBarUpdate(tintColor: navigationBarTintColor)
+            navigationController?.setNeedsNavigationBarUpdate(titleColor: navigationBarTitleColor)
         }
         swizzledViewWillAppear(animated)
     }
     
     @objc private func swizzledViewWillDisappear(_ animated: Bool) {
         
+        
+        
+        swizzledViewWillDisappear(animated)
     }
     
     @objc private func swizzledViewDidAppear(_ animated: Bool)  {
         
+        
+        swizzledViewDidAppear(animated)
     }
-    
 }

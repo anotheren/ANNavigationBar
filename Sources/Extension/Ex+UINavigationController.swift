@@ -70,17 +70,16 @@ extension UINavigationController {
     }
 }
 
-// MARK: - Swizzle
+// MARK: - Swizzle + Pop
 
 extension UINavigationController {
-    
     
     // swizzling system method: popToViewController
     @objc func swizzledPopToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         setNeedsNavigationBarUpdate(titleColor: viewController.navigationBarTitleColor)
         let displayLink = CADisplayLink(target: self, selector: #selector(popNeedDisplay))
         // NSRunLoopCommonModes contains kCFRunLoopDefaultMode and UITrackingRunLoopMode
-        displayLink.add(to: RunLoop.main, forMode: .common)
+        displayLink.add(to: .main, forMode: .common)
         CATransaction.setCompletionBlock {
             displayLink.invalidate()
             PopAnimation.displayCount = 0
@@ -92,30 +91,88 @@ extension UINavigationController {
         return vcs
     }
     
-    @objc private func popNeedDisplay() {
-//        guard let topViewController = topViewController, let coordinator = topViewController.transitionCoordinator else {
-//            return
-//        }
-//        popProperties.displayCount += 1
-//        let progress = popProperties.popProgress
-//        // print("第\(popProperties.displayCount)次pop的进度：\(popProgress)")
-//        let fromVC = coordinator.viewController(forKey: .from)
-//        let toVC = coordinator.viewController(forKey: .to)
-//        updateNavigationBar(fromVC: fromVC, toVC: toVC, progress: progress)
+    // swizzling system method: popToRootViewControllerAnimated
+    @objc private func swizzledPopToRootViewController(_ animated: Bool) -> [UIViewController]? {
+        let displayLink = CADisplayLink(target: self, selector: #selector(popNeedDisplay))
+        displayLink.add(to: .main, forMode: .common)
+        CATransaction.setCompletionBlock {
+            displayLink.invalidate()
+            PopAnimation.displayCount = 0
+        }
+        CATransaction.setAnimationDuration(PopAnimation.duration)
+        CATransaction.begin()
+        let vcs = swizzledPopToRootViewController(animated)
+        CATransaction.commit()
+        return vcs
     }
-
-}
-
-extension UINavigationController {
     
-    struct PopAnimation {
+    @objc private func popNeedDisplay() {
+        guard let coordinator = topViewController?.transitionCoordinator else {
+            return
+        }
+        PopAnimation.displayCount += 1
+        let progress = PopAnimation.progress
+        let fromVC = coordinator.viewController(forKey: .from)
+        let toVC = coordinator.viewController(forKey: .to)
+        updateNavigationBar(fromVC: fromVC, toVC: toVC, percent: progress)
+    }
+    
+    private struct PopAnimation {
         
         static let duration = 0.15
         static var displayCount = 0
+        
         static var progress: CGFloat {
             let all = CGFloat(60.0 * duration)
             let current = min(all, CGFloat(displayCount))
             return current / all
         }
+    }
+}
+
+// MARK: - Swizzle + Push
+
+extension UINavigationController {
+    
+    @objc private func swizzledPushViewController(_ viewController: UIViewController, animated: Bool) {
+        
+    }
+    
+    @objc private func pushNeedDisplay() {
+        guard let coordinator = topViewController?.transitionCoordinator else {
+            return
+        }
+        PopAnimation.displayCount += 1
+        let progress = PopAnimation.progress
+        let fromVC = coordinator.viewController(forKey: .from)
+        let toVC = coordinator.viewController(forKey: .to)
+        updateNavigationBar(fromVC: fromVC, toVC: toVC, percent: progress)
+    }
+    
+    private struct PushAnimation {
+        
+        static let duration = 0.13
+        static var displayCount = 0
+        
+        static var progress: CGFloat {
+            let all = CGFloat(60.0 * duration)
+            let current = min(all, CGFloat(displayCount))
+            return current / all
+        }
+    }
+}
+
+// MARK: UINavigationBarDelegate
+
+extension UINavigationController: UINavigationBarDelegate {
+    
+    public func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
+        fatalError()
+    }
+    
+    private func dealInteractionChanges(_ context: UIViewControllerTransitionCoordinatorContext) {
+        
+        
+        
     }
 }
