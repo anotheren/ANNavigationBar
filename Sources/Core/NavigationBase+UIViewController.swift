@@ -23,20 +23,31 @@ extension NavigationBase where Base: UIViewController {
             swizzleMethod
             return base.navigationBarBackgroundImage
         }
-        set {
+        nonmutating set {
             swizzleMethod
             base.navigationBarBackgroundImage = newValue
+        }
+    }
+    
+    public var tintColor: UIColor {
+        get {
+            swizzleMethod
+            return base.navigationBarTintColor
+        }
+        nonmutating set {
+            swizzleMethod
+            base.navigationBarTintColor = newValue
         }
     }
     
     public var barTintColor: UIColor {
         get {
             swizzleMethod
-            return base.navigationBarTintColor
+            return base.navigationBarBarTintColor
         }
-        set {
+        nonmutating set {
             swizzleMethod
-            base.navigationBarTintColor = newValue
+            base.navigationBarBarTintColor = newValue
         }
     }
     
@@ -45,7 +56,7 @@ extension NavigationBase where Base: UIViewController {
             swizzleMethod
             return base.navigationBarTitleColor
         }
-        set {
+        nonmutating set {
             swizzleMethod
             base.navigationBarTitleColor = newValue
         }
@@ -56,7 +67,7 @@ extension NavigationBase where Base: UIViewController {
             swizzleMethod
             return base.statusBarStyle
         }
-        set {
+        nonmutating set {
             swizzleMethod
             base.statusBarStyle = newValue
         }
@@ -67,20 +78,9 @@ extension NavigationBase where Base: UIViewController {
             swizzleMethod
             return base.isNavigationBarShadowImageHidden
         }
-        set {
+        nonmutating set {
             swizzleMethod
             base.isNavigationBarShadowImageHidden = newValue
-        }
-    }
-    
-    public var customBar: UIView? {
-        get {
-            swizzleMethod
-            return base.customNavigationBar
-        }
-        set {
-            swizzleMethod
-            base.customNavigationBar = newValue
         }
     }
 }

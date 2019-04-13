@@ -44,27 +44,26 @@ extension UINavigationController {
     
     func updateNavigationBar(fromVC: UIViewController?, toVC: UIViewController?, percent: CGFloat) {
         // change NavigationBar.barTintColor
-        let fromBarTintColor = fromVC?.navigationBarBarTintColor ?? .clear // TODO
-        let toBarTintColor = toVC?.navigationBarBarTintColor ?? .clear // TODO
+        let fromBarTintColor = fromVC?.navigationBarBarTintColor ?? .white
+        let toBarTintColor = toVC?.navigationBarBarTintColor ?? .white
         let newBarTintColor = NavigationHelper.middleColor(fromColor: fromBarTintColor, toColor: toBarTintColor, percent: percent)
         setNeedsNavigationBarUpdate(barTintColor: newBarTintColor)
         
         // change NavigationBar.tintColor
-        let fromTintColor = fromVC?.navigationBarTintColor ?? .clear // TODO
-        let toTintColor = toVC?.navigationBarTintColor ?? .clear // TODO
+        let fromTintColor = fromVC?.navigationBarTintColor ?? .black
+        let toTintColor = toVC?.navigationBarTintColor ?? .black
         let newTintColor = NavigationHelper.middleColor(fromColor: fromTintColor, toColor: toTintColor, percent: percent)
         setNeedsNavigationBarUpdate(tintColor: newTintColor)
         
-        
         // change NavigationBar.titleColor
-        let fromTitleColor = fromVC?.navigationBarTitleColor ?? .clear // TODO
-        let toTitleColor = toVC?.navigationBarTitleColor ?? .clear // TODO
+        let fromTitleColor = fromVC?.navigationBarTitleColor ?? .black
+        let toTitleColor = toVC?.navigationBarTitleColor ?? .black
         let newTitleColor = NavigationHelper.middleColor(fromColor: fromTitleColor, toColor: toTitleColor, percent: percent)
         setNeedsNavigationBarUpdate(titleColor: newTitleColor)
         
         // change NavigationBar._UIBarBackground.alpha
-        let fromBarBackgroundAlpha = fromVC?.navigationBarBackgroundAlpha ?? 1.0 // TODO
-        let toBarBackgroundAlpha = toVC?.navigationBarBackgroundAlpha ?? 1.0 // TODO
+        let fromBarBackgroundAlpha = fromVC?.navigationBarBackgroundAlpha ?? 1.0
+        let toBarBackgroundAlpha = toVC?.navigationBarBackgroundAlpha ?? 1.0
         let newBarBackgroundAlpha = NavigationHelper.middleValue(fromValue: fromBarBackgroundAlpha, toValue: toBarBackgroundAlpha, percent: percent)
         setNeedsNavigationBarUpdate(barBackgroundAlpha: newBarBackgroundAlpha)
     }

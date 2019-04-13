@@ -65,16 +65,6 @@ extension UIViewController {
         set {
             objc_setAssociatedObject(self, &navigationBarBackgroundImageAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
-        // TODO
-        //        set {
-        //            if customNavBar.isKind(of: UINavigationBar.self) {
-        //                let navBar = customNavBar as! UINavigationBar
-        //                navBar.wr_setBackgroundImage(image: newValue!)
-        //            }
-        //            else {
-        //                objc_setAssociatedObject(self, &AssociatedKeys.navBarBackgroundImage, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        //            }
-        //        }
     }
     
     // navigationBar barTintColor
@@ -87,16 +77,6 @@ extension UIViewController {
         }
         set {
             objc_setAssociatedObject(self, &navigationBarBarTintColorAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            // TODO
-//            if customNavBar.isKind(of: UINavigationBar.self) {
-//                //                let navBar = customNavBar as! UINavigationBar
-//                //                navBar.wr_setBackgroundColor(color: newValue)
-//            }
-//            else {
-//                if canUpdateNavBarBarTintColorOrBackgroundAlpha == true {
-//                    navigationController?.setNeedsNavigationBarUpdate(barTintColor: newValue)
-//                }
-//            }
         }
     }
     
@@ -110,16 +90,6 @@ extension UIViewController {
         }
         set {
             objc_setAssociatedObject(self, &navigationBarBackgroundAlphaAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            // TODO
-//            if customNavBar.isKind(of: UINavigationBar.self) {
-//                //                let navBar = customNavBar as! UINavigationBar
-//                //                navBar.wr_setBackgroundAlpha(alpha: newValue)
-//            }
-//            else {
-//                if canUpdateNavBarBarTintColorOrBackgroundAlpha == true {
-//                    navigationController?.setNeedsNavigationBarUpdate(barBackgroundAlpha: newValue)
-//                }
-//            }
         }
     }
     
@@ -133,17 +103,6 @@ extension UIViewController {
         }
         set {
             objc_setAssociatedObject(self, &navigationBarTintColorAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            
-//            if customNavBar.isKind(of: UINavigationBar.self) {
-//                //                let navBar = customNavBar as! UINavigationBar
-//                //                navBar.tintColor = newValue
-//            }
-//            else
-//            {
-//                if pushToNextVCFinished == false {
-//                    navigationController?.setNeedsNavigationBarUpdate(tintColor: newValue)
-//                }
-//            }
         }
     }
     
@@ -157,17 +116,6 @@ extension UIViewController {
         }
         set {
             objc_setAssociatedObject(self, &navigationBarTitleColorAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            
-//            if customNavBar.isKind(of: UINavigationBar.self) {
-//                //                let navBar = customNavBar as! UINavigationBar
-//                //                navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor:newValue]
-//            }
-//            else
-//            {
-//                if pushToNextVCFinished == false {
-//                    navigationController?.setNeedsNavigationBarUpdate(titleColor: newValue)
-//                }
-//            }
         }
     }
     
@@ -196,18 +144,6 @@ extension UIViewController {
         set {
             objc_setAssociatedObject(self, &isNavigationBarShadowImageHiddenAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
             navigationController?.setNeedsNavigationBarUpdate(isHidedShadowImage: newValue)
-        }
-    }
-    
-    // custom navigationBar
-    var customNavigationBar: UIView? {
-        get {
-            let navigationBar = objc_getAssociatedObject(self, &customNavigationBarAssociatedKey) as? UIView
-            return navigationBar
-        }
-        set {
-            objc_setAssociatedObject(self, &customNavigationBarAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            // TODO
         }
     }
     
