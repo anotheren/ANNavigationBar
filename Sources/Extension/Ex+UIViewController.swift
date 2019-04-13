@@ -272,7 +272,7 @@ extension UIViewController {
 
 extension UIViewController {
     
-    static let swizzleMethod: () = {
+    static let swizzleUIViewController: () = {
         swizzleViewWillAppear
         swizzleViewWillDisappear
         swizzleViewDidAppear

@@ -70,7 +70,7 @@ extension UINavigationController {
     }
 }
 
-// MARK: - Swizzle + Pop
+// MARK: - Swizzled Method + Pop
 
 extension UINavigationController {
     
@@ -130,7 +130,7 @@ extension UINavigationController {
     }
 }
 
-// MARK: - Swizzle + Push
+// MARK: - Swizzled Method + Push
 
 extension UINavigationController {
     
@@ -226,4 +226,40 @@ extension UINavigationController: UINavigationBarDelegate {
         updateNavigationBar(fromVC: fromVC, toVC: toVC, percent: percentComplete)
         swizzledUpdateInteractiveTransition(percentComplete)
     }
+}
+
+// MARK: - Swizzle Method
+
+extension UINavigationController {
+    
+    static let swizzleUINavigationController: () = {
+        swizzlePopToViewController
+        swizzlePopToRootViewController
+        swizzlePushViewController
+        swizzleUpdateInteractiveTransition
+    }()
+    
+    private static let swizzlePopToViewController: () = {
+        let originalSelector = #selector(UINavigationController.popToViewController)
+        let swizzledSelector = #selector(UINavigationController.swizzledPopToViewController)
+        SwizzleHelper.swizzleMethod(for: UINavigationController.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
+    
+    private static let swizzlePopToRootViewController: () = {
+        let originalSelector = #selector(UINavigationController.popToRootViewController)
+        let swizzledSelector = #selector(UINavigationController.swizzledPopToRootViewController)
+        SwizzleHelper.swizzleMethod(for: UINavigationController.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
+    
+    private static let swizzlePushViewController: () = {
+        let originalSelector = #selector(UINavigationController.pushViewController)
+        let swizzledSelector = #selector(UINavigationController.swizzledPushViewController)
+        SwizzleHelper.swizzleMethod(for: UINavigationController.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
+    
+    private static let swizzleUpdateInteractiveTransition: () = {
+        let originalSelector = NSSelectorFromString("_updateInteractiveTransition:")
+        let swizzledSelector = #selector(UINavigationController.swizzledUpdateInteractiveTransition)
+        SwizzleHelper.swizzleMethod(for: UINavigationController.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
 }

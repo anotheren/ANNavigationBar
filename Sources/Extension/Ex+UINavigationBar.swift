@@ -112,11 +112,11 @@ extension UINavigationBar {
     }
 }
 
-// MARK: - Swizzle
+// MARK: - Swizzled Method
 
 extension UINavigationBar {
     
-    @objc func swizzledSetTitleTextAttributes(_ newTitleTextAttributes: [NSAttributedString.Key : Any]?) {
+    @objc private func swizzledSetTitleTextAttributes(_ newTitleTextAttributes: [NSAttributedString.Key : Any]?) {
         guard var attributes = newTitleTextAttributes else {
             return
         }
@@ -136,6 +136,21 @@ extension UINavigationBar {
         }
         swizzledSetTitleTextAttributes(attributes)
     }
+}
+
+// MARK: - Swizzle Method
+
+extension UINavigationBar {
+    
+    static let swizzleUINavigationBar: () = {
+        swizzleSetTitleTextAttributes
+    }()
+
+    private static let swizzleSetTitleTextAttributes: () = {
+        let originalSelector = #selector(setter: UINavigationBar.titleTextAttributes)
+        let swizzledSelector = #selector(UINavigationBar.swizzledSetTitleTextAttributes)
+        SwizzleHelper.swizzleMethod(for: UINavigationBar.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
 }
 
 // MARK: - Private Class
