@@ -12,7 +12,7 @@ import ObjectiveC
 extension UINavigationController {
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return topViewController?.statusBarStyle ?? .lightContent
+        return topViewController?.statusBarStyle ?? .default
     }
 }
 
@@ -135,15 +135,25 @@ extension UINavigationController {
 extension UINavigationController {
     
     @objc private func swizzledPushViewController(_ viewController: UIViewController, animated: Bool) {
-        
+        let displayLink = CADisplayLink(target: self, selector: #selector(pushNeedDisplay))
+        displayLink.add(to: .main, forMode: .common)
+        CATransaction.setCompletionBlock {
+            displayLink.invalidate()
+            PushAnimation.displayCount = 0
+            viewController.isPushToCurrentVieControllerFinished = true
+        }
+        CATransaction.setAnimationDuration(PushAnimation.duration)
+        CATransaction.begin()
+        swizzledPushViewController(viewController, animated: animated)
+        CATransaction.commit()
     }
     
     @objc private func pushNeedDisplay() {
         guard let coordinator = topViewController?.transitionCoordinator else {
             return
         }
-        PopAnimation.displayCount += 1
-        let progress = PopAnimation.progress
+        PushAnimation.displayCount += 1
+        let progress = PushAnimation.progress
         let fromVC = coordinator.viewController(forKey: .from)
         let toVC = coordinator.viewController(forKey: .to)
         updateNavigationBar(fromVC: fromVC, toVC: toVC, percent: progress)
@@ -167,12 +177,53 @@ extension UINavigationController {
 extension UINavigationController: UINavigationBarDelegate {
     
     public func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
-        fatalError()
+        if let coordinator = topViewController?.transitionCoordinator, coordinator.initiallyInteractive {
+            coordinator.notifyWhenInteractionChanges { context in
+                self.dealInteractionChanges(context)
+            }
+            return true
+        } else {
+            let itemCount = navigationBar.items?.count ?? 0
+            let n = viewControllers.count >= itemCount ? 2 : 1
+            let targetVC = viewControllers[viewControllers.count - n]
+            popToViewController(targetVC, animated: true)
+            return true
+        }
     }
     
     private func dealInteractionChanges(_ context: UIViewControllerTransitionCoordinatorContext) {
         
+        func animations(for key: UITransitionContextViewControllerKey) {
+            let currentColor = context.viewController(forKey: key)?.navigationBarTintColor ?? .clear // TODO
+            let currentAlpha = context.viewController(forKey: key)?.navigationBarBackgroundAlpha ?? 1
+            setNeedsNavigationBarUpdate(barTintColor: currentColor)
+            setNeedsNavigationBarUpdate(barBackgroundAlpha: currentAlpha)
+        }
         
-        
+        if context.isCancelled {
+            // after that, cancel the gesture of return
+            let cancelDuration: TimeInterval = context.transitionDuration * Double(context.percentComplete)
+            UIView.animate(withDuration: cancelDuration) {
+                animations(for: .from)
+            }
+        } else {
+            // after that, finish the gesture of return
+            let finishDuration: TimeInterval = context.transitionDuration * Double(1 - context.percentComplete)
+            UIView.animate(withDuration: finishDuration) {
+                animations(for: .to)
+            }
+        }
+    }
+    
+    // swizzling system method: _updateInteractiveTransition
+    @objc func swizzledUpdateInteractiveTransition(_ percentComplete: CGFloat) {
+        guard let coordinator = topViewController?.transitionCoordinator else {
+            swizzledUpdateInteractiveTransition(percentComplete)
+            return
+        }
+        let fromVC = coordinator.viewController(forKey: .from)
+        let toVC = coordinator.viewController(forKey: .to)
+        updateNavigationBar(fromVC: fromVC, toVC: toVC, percent: percentComplete)
+        swizzledUpdateInteractiveTransition(percentComplete)
     }
 }
