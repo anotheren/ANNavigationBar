@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ObjectiveC
 
 private var isPushToCurrentViewControllerFinishedAssociatedKey: UInt8 = 0
 private var isPushToNextViewControllerFinishedAssociatedKey: UInt8 = 0
@@ -60,6 +61,9 @@ extension UIViewController {
                 return nil
             }
             return backgroundImage
+        }
+        set {
+            objc_setAssociatedObject(self, &navigationBarBackgroundImageAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
         // TODO
         //        set {
@@ -171,7 +175,7 @@ extension UIViewController {
     var statusBarStyle: UIStatusBarStyle {
         get {
             guard let style = objc_getAssociatedObject(self, &statusBarStyledAssociatedKey) as? UIStatusBarStyle else {
-                return .lightContent
+                return .default
             }
             return style
         }
@@ -196,15 +200,14 @@ extension UIViewController {
     }
     
     // custom navigationBar
-    var customNavigationBar: UIView {
+    var customNavigationBar: UIView? {
         get {
-            guard let navigationBar = objc_getAssociatedObject(self, &customNavigationBarAssociatedKey) as? UIView else {
-                return UIView()
-            }
+            let navigationBar = objc_getAssociatedObject(self, &customNavigationBarAssociatedKey) as? UIView
             return navigationBar
         }
         set {
             objc_setAssociatedObject(self, &customNavigationBarAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            // TODO
         }
     }
     

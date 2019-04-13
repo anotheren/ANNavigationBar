@@ -6,7 +6,7 @@
 //  Copyright © 2019 anotheren.com. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct NavigationHelper {
     
