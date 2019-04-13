@@ -16,7 +16,6 @@ private var navigationBarBarTintColorAssociatedKey: UInt8 = 0
 private var navigationBarBackgroundAlphaAssociatedKey: UInt8 = 0
 private var navigationBarTintColorAssociatedKey: UInt8 = 0
 private var navigationBarTitleColorAssociatedKey: UInt8 = 0
-private var navigationBarShadowImageHidden: UInt8 = 0
 
 private var isNavigationBarShadowImageHiddenAssociatedKey: UInt8 = 0
 
@@ -24,10 +23,12 @@ private var statusBarStyledAssociatedKey: UInt8 = 0
 
 private var customNavigationBarAssociatedKey: UInt8 = 0
 
+// MARK: - Associated Object
+
 extension UIViewController {
     
     // navigationBar barTintColor can not change by currentVC before fromVC push to currentVC finished
-    var isPushToCurrentVieControllerFinished: Bool {
+    var isPushToCurrentViewControllerFinished: Bool {
         get {
             guard let isFinished = objc_getAssociatedObject(self, &isPushToCurrentViewControllerFinishedAssociatedKey) as? Bool else {
                 return false
@@ -209,7 +210,7 @@ extension UIViewController {
     
     var canUpdateNavigatiobBarBarTintColorOrBackgroundAlpha: Bool {
         let isRootViewController = navigationController?.viewControllers.first == self
-        return (isPushToCurrentVieControllerFinished || isRootViewController) && !isPushToNextViewControllerFinished
+        return (isPushToCurrentViewControllerFinished || isRootViewController) && !isPushToNextViewControllerFinished
     }
     
     var canUpdateNavigationBar: Bool {
@@ -228,7 +229,7 @@ extension UIViewController {
     }
 }
 
-// MARK: - Swizzle
+// MARK: - Swizzled Method
 
 extension UIViewController {
     
@@ -242,15 +243,56 @@ extension UIViewController {
     }
     
     @objc private func swizzledViewWillDisappear(_ animated: Bool) {
-        
-        
-        
+        if canUpdateNavigationBar {
+            isPushToNextViewControllerFinished = true
+        }
         swizzledViewWillDisappear(animated)
     }
     
     @objc private func swizzledViewDidAppear(_ animated: Bool)  {
-        
-        
+        if navigationController?.viewControllers.first != self {
+            isPushToCurrentViewControllerFinished = true
+        }
+        if canUpdateNavigationBar {
+            if let navigationBarBackgroundImage = navigationBarBackgroundImage {
+                navigationController?.setNeedsNavigationBarUpdate(backgroundImage: navigationBarBackgroundImage)
+            } else {
+                navigationController?.setNeedsNavigationBarUpdate(barTintColor: navigationBarTintColor)
+            }
+            navigationController?.setNeedsNavigationBarUpdate(barBackgroundAlpha: navigationBarBackgroundAlpha)
+            navigationController?.setNeedsNavigationBarUpdate(tintColor: navigationBarTintColor)
+            navigationController?.setNeedsNavigationBarUpdate(titleColor: navigationBarTitleColor)
+            navigationController?.setNeedsNavigationBarUpdate(isHidedShadowImage: isNavigationBarShadowImageHidden)
+        }
         swizzledViewDidAppear(animated)
     }
+}
+
+// MARK: - Swizzle Method
+
+extension UIViewController {
+    
+    static let swizzleMethod: () = {
+        swizzleViewWillAppear
+        swizzleViewWillDisappear
+        swizzleViewDidAppear
+    }()
+    
+    private static let swizzleViewWillAppear: () = {
+        let originalSelector = #selector(UIViewController.viewWillAppear)
+        let swizzledSelector = #selector(UIViewController.swizzledViewWillAppear)
+        SwizzleHelper.swizzleMethod(for: UIViewController.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
+    
+    private static let swizzleViewWillDisappear: () = {
+        let originalSelector = #selector(UIViewController.viewWillDisappear)
+        let swizzledSelector = #selector(UIViewController.swizzledViewWillDisappear)
+        SwizzleHelper.swizzleMethod(for: UIViewController.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
+    
+    private static let swizzleViewDidAppear: () = {
+        let originalSelector = #selector(UIViewController.viewDidAppear)
+        let swizzledSelector = #selector(UIViewController.swizzledViewDidAppear)
+        SwizzleHelper.swizzleMethod(for: UIViewController.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+    }()
 }

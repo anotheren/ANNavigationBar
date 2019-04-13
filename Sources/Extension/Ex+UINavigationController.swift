@@ -140,7 +140,7 @@ extension UINavigationController {
         CATransaction.setCompletionBlock {
             displayLink.invalidate()
             PushAnimation.displayCount = 0
-            viewController.isPushToCurrentVieControllerFinished = true
+            viewController.isPushToCurrentViewControllerFinished = true
         }
         CATransaction.setAnimationDuration(PushAnimation.duration)
         CATransaction.begin()
@@ -216,7 +216,7 @@ extension UINavigationController: UINavigationBarDelegate {
     }
     
     // swizzling system method: _updateInteractiveTransition
-    @objc func swizzledUpdateInteractiveTransition(_ percentComplete: CGFloat) {
+    @objc private func swizzledUpdateInteractiveTransition(_ percentComplete: CGFloat) {
         guard let coordinator = topViewController?.transitionCoordinator else {
             swizzledUpdateInteractiveTransition(percentComplete)
             return
