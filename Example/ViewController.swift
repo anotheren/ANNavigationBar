@@ -16,8 +16,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        navigation.barTintColor = .black
-        navigation.tintColor = .white
+        navigation.barTintColor = .white
+        navigation.tintColor = .black
         navigation.barTitleColor = .white
         navigationItem.title = "No.\(index) Controller"
     }
