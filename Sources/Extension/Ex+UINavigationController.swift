@@ -34,8 +34,8 @@ extension UINavigationController {
         navigationBar.tintColor = tintColor
     }
     
-    func setNeedsNavigationBarUpdate(isHidedShadowImage: Bool) {
-        navigationBar.shadowImage = isHidedShadowImage ? UIImage() : nil
+    func setNeedsNavigationBarUpdate(isShadowImageHidden: Bool) {
+        navigationBar.shadowImage = isShadowImageHidden ? UIImage() : nil
     }
 
     func setNeedsNavigationBarUpdate(titleColor: UIColor) {

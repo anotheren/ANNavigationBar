@@ -26,7 +26,8 @@ class ViewController: UIViewController {
         let controller = ViewController()
         controller.index = index+1
         controller.navigation.barTintColor = .red
-        controller.navigation.statusBarStyle = .lightContent
+        controller.navigation.tintColor = .black
+        controller.navigation.statusBarStyle = .default
         navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -34,7 +35,8 @@ class ViewController: UIViewController {
         let controller = ViewController()
         controller.index = index+1
         controller.navigation.barTintColor = .black
-        controller.navigation.statusBarStyle = .lightContent
+        controller.navigation.tintColor = .black
+        controller.navigation.statusBarStyle = .default
         navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -42,7 +44,8 @@ class ViewController: UIViewController {
         let controller = ViewController()
         controller.index = index+1
         controller.navigation.barTintColor = .green
-        controller.navigation.statusBarStyle = .lightContent
+        controller.navigation.tintColor = .black
+        controller.navigation.statusBarStyle = .default
         navigationController?.pushViewController(controller, animated: true)
     }
 }

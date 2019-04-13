@@ -37,6 +37,7 @@ extension UIViewController {
             return isFinished
         }
         set {
+            print("isPushToCurrentViewControllerFinished=\(newValue)")
             objc_setAssociatedObject(self, &isPushToCurrentViewControllerFinishedAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
@@ -50,6 +51,7 @@ extension UIViewController {
             return isFinished
         }
         set {
+            print("isPushToNextViewControllerFinished=\(newValue)")
             objc_setAssociatedObject(self, &isPushToNextViewControllerFinishedAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
@@ -143,7 +145,7 @@ extension UIViewController {
         }
         set {
             objc_setAssociatedObject(self, &isNavigationBarShadowImageHiddenAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
-            navigationController?.setNeedsNavigationBarUpdate(isHidedShadowImage: newValue)
+            navigationController?.setNeedsNavigationBarUpdate(isShadowImageHidden: newValue)
         }
     }
     
@@ -164,7 +166,9 @@ extension UIViewController {
                               width: UIScreen.main.bounds.width,
                               height: UIScreen.main.bounds.height-UIDevice.navigationBarBottom-UIDevice.tabBarHeight)
         let isBat = (viewFrame == maxFrame || viewFrame == midFrame || viewFrame == minFrame)
-        return navigationController != nil && isBat
+        let result = navigationController != nil && isBat
+        print("canUpdateNavigationBar:\(result)")
+        return result
     }
 }
 
@@ -196,12 +200,12 @@ extension UIViewController {
             if let navigationBarBackgroundImage = navigationBarBackgroundImage {
                 navigationController?.setNeedsNavigationBarUpdate(backgroundImage: navigationBarBackgroundImage)
             } else {
-                navigationController?.setNeedsNavigationBarUpdate(barTintColor: navigationBarTintColor)
+                navigationController?.setNeedsNavigationBarUpdate(barTintColor: navigationBarBarTintColor)
             }
             navigationController?.setNeedsNavigationBarUpdate(barBackgroundAlpha: navigationBarBackgroundAlpha)
             navigationController?.setNeedsNavigationBarUpdate(tintColor: navigationBarTintColor)
             navigationController?.setNeedsNavigationBarUpdate(titleColor: navigationBarTitleColor)
-            navigationController?.setNeedsNavigationBarUpdate(isHidedShadowImage: isNavigationBarShadowImageHidden)
+            navigationController?.setNeedsNavigationBarUpdate(isShadowImageHidden: isNavigationBarShadowImageHidden)
         }
         swizzledViewDidAppear(animated)
     }
