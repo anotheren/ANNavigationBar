@@ -9,19 +9,6 @@
 import UIKit
 import ObjectiveC
 
-private var isPushToCurrentViewControllerFinishedAssociatedKey: UInt8 = 0
-private var isPushToNextViewControllerFinishedAssociatedKey: UInt8 = 0
-
-private var navigationBarBackgroundImageAssociatedKey: UInt8 = 0
-private var navigationBarBarTintColorAssociatedKey: UInt8 = 0
-private var navigationBarBackgroundAlphaAssociatedKey: UInt8 = 0
-private var navigationBarTintColorAssociatedKey: UInt8 = 0
-private var navigationBarTitleColorAssociatedKey: UInt8 = 0
-
-private var isNavigationBarShadowImageHiddenAssociatedKey: UInt8 = 0
-
-private var statusBarStyledAssociatedKey: UInt8 = 0
-
 // MARK: - Associated Object
 
 extension UIViewController {
