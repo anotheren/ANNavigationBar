@@ -29,6 +29,17 @@ extension NavigationBase where Base: UIViewController {
         }
     }
     
+    public var barBackgroundAplha: CGFloat {
+        get {
+            swizzleMethod
+            return base.navigationBarBackgroundAlpha
+        }
+        nonmutating set {
+            swizzleMethod
+            base.navigationBarBackgroundAlpha = newValue
+        }
+    }
+    
     public var tintColor: UIColor {
         get {
             swizzleMethod
