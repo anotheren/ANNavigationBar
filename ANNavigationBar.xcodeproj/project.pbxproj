@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A00891B722633A2400DC55FC /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00891B622633A2400DC55FC /* Ex+UIColor.swift */; };
 		A0263CB3224639EB00650135 /* ANNavigationBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A0263CA5224639EB00650135 /* ANNavigationBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0C42C98224688EF006DC383 /* NavigationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42C97224688EF006DC383 /* NavigationBase.swift */; };
 		A0C42C9A22468A79006DC383 /* NavigationCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42C9922468A79006DC383 /* NavigationCompatible.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A00891B622633A2400DC55FC /* Ex+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
 		A0263CA2224639EB00650135 /* ANNavigationBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ANNavigationBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0263CA5224639EB00650135 /* ANNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANNavigationBar.h; sourceTree = "<group>"; };
 		A0263CA6224639EB00650135 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				A0C42CA522472BB7006DC383 /* Ex+UINavigationController.swift */,
 				A0C42C9C22468AF8006DC383 /* Ex+UIViewController.swift */,
 				A0C42CA022468ED7006DC383 /* Ex+UIDevice.swift */,
+				A00891B622633A2400DC55FC /* Ex+UIColor.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 			files = (
 				A0C42CA422471F7C006DC383 /* SwizzleHelper.swift in Sources */,
 				A0C42CA122468ED7006DC383 /* Ex+UIDevice.swift in Sources */,
+				A00891B722633A2400DC55FC /* Ex+UIColor.swift in Sources */,
 				A0C42C9A22468A79006DC383 /* NavigationCompatible.swift in Sources */,
 				A0C42CAA22476B8B006DC383 /* NavigationBase+UIViewController.swift in Sources */,
 				A0C42C9F22468C14006DC383 /* Ex+UINavigationBar.swift in Sources */,

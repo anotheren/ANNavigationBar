@@ -22,115 +22,125 @@ private var isNavigationBarShadowImageHiddenAssociatedKey: UInt8 = 0
 
 private var statusBarStyledAssociatedKey: UInt8 = 0
 
-private var customNavigationBarAssociatedKey: UInt8 = 0
-
 // MARK: - Associated Object
 
 extension UIViewController {
     
+    private struct AssociatedKey {
+        
+        static var isPushToCurrentViewControllerFinished: UInt8 = 0
+        static var isPushToNextViewControllerFinished: UInt8 = 0
+        
+        static var navigationBarBackgroundImage: UInt8 = 0
+        static var navigationBarBackgroundAlpha: UInt8 = 0
+        static var navigationBarBarTintColor: UInt8 = 0
+        static var navigationBarTintColor: UInt8 = 0
+        static var navigationBarTitleColor: UInt8 = 0
+        static var isNavigationBarShadowImageHidden: UInt8 = 0
+        static var statusBarStyle: UInt8 = 0
+    }
+    
     // navigationBar barTintColor can not change by currentVC before fromVC push to currentVC finished
     var isPushToCurrentViewControllerFinished: Bool {
         get {
-            guard let isFinished = objc_getAssociatedObject(self, &isPushToCurrentViewControllerFinishedAssociatedKey) as? Bool else {
+            guard let isFinished = objc_getAssociatedObject(self, &AssociatedKey.isPushToCurrentViewControllerFinished) as? Bool else {
                 return false
             }
             return isFinished
         }
         set {
-            print("isPushToCurrentViewControllerFinished=\(newValue)")
-            objc_setAssociatedObject(self, &isPushToCurrentViewControllerFinishedAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKey.isPushToCurrentViewControllerFinished, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
     // navigationBar barTintColor can not change by currentVC when currentVC push to nextVC finished
     var isPushToNextViewControllerFinished: Bool {
         get {
-            guard let isFinished = objc_getAssociatedObject(self, &isPushToNextViewControllerFinishedAssociatedKey) as? Bool else {
+            guard let isFinished = objc_getAssociatedObject(self, &AssociatedKey.isPushToNextViewControllerFinished) as? Bool else {
                 return false
             }
             return isFinished
         }
         set {
-            print("isPushToNextViewControllerFinished=\(newValue)")
-            objc_setAssociatedObject(self, &isPushToNextViewControllerFinishedAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKey.isPushToNextViewControllerFinished, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
     // you can set navigationBar backgroundImage
     var navigationBarBackgroundImage: UIImage? {
         get {
-            guard let backgroundImage = objc_getAssociatedObject(self, &navigationBarBackgroundImageAssociatedKey) as? UIImage else {
+            guard let backgroundImage = objc_getAssociatedObject(self, &AssociatedKey.navigationBarBackgroundImage) as? UIImage else {
                 return nil
             }
             return backgroundImage
         }
         set {
-            objc_setAssociatedObject(self, &navigationBarBackgroundImageAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKey.navigationBarBackgroundImage, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
     // navigationBar barTintColor
     var navigationBarBarTintColor: UIColor {
         get {
-            guard let barTintColor = objc_getAssociatedObject(self, &navigationBarBarTintColorAssociatedKey) as? UIColor else {
-                return .clear // TODO
+            guard let barTintColor = objc_getAssociatedObject(self, &AssociatedKey.navigationBarBarTintColor) as? UIColor else {
+                return UIColor.navigationBarBarTintColor
             }
             return barTintColor
         }
         set {
-            objc_setAssociatedObject(self, &navigationBarBarTintColorAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKey.navigationBarBarTintColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     // navigationBar _UIBarBackground alpha
     var navigationBarBackgroundAlpha: CGFloat {
         get {
-            guard let backgroundAlpha = objc_getAssociatedObject(self, &navigationBarBackgroundAlphaAssociatedKey) as? CGFloat else {
+            guard let backgroundAlpha = objc_getAssociatedObject(self, &AssociatedKey.navigationBarBackgroundAlpha) as? CGFloat else {
                 return 1.0
             }
             return backgroundAlpha
         }
         set {
-            objc_setAssociatedObject(self, &navigationBarBackgroundAlphaAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKey.navigationBarBackgroundAlpha, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     // navigationBar tintColor
     var navigationBarTintColor: UIColor {
         get {
-            guard let tintColor = objc_getAssociatedObject(self, &navigationBarTintColorAssociatedKey) as? UIColor else {
-                return .clear
+            guard let tintColor = objc_getAssociatedObject(self, &AssociatedKey.navigationBarTintColor) as? UIColor else {
+                return UIColor.navigationBarTintColor
             }
             return tintColor
         }
         set {
-            objc_setAssociatedObject(self, &navigationBarTintColorAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKey.navigationBarTintColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     // navigationBar titleColor
     var navigationBarTitleColor: UIColor {
         get {
-            guard let titleColor = objc_getAssociatedObject(self, &navigationBarTitleColorAssociatedKey) as? UIColor else {
-                return .clear
+            guard let titleColor = objc_getAssociatedObject(self, &AssociatedKey.navigationBarTitleColor) as? UIColor else {
+                return UIColor.navigationBarTitleColor
             }
             return titleColor
         }
         set {
-            objc_setAssociatedObject(self, &navigationBarTitleColorAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKey.navigationBarTitleColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     // statusBarStyle
     var statusBarStyle: UIStatusBarStyle {
         get {
-            guard let style = objc_getAssociatedObject(self, &statusBarStyledAssociatedKey) as? UIStatusBarStyle else {
+            guard let style = objc_getAssociatedObject(self, &AssociatedKey.statusBarStyle) as? UIStatusBarStyle else {
                 return .default
             }
             return style
         }
         set {
-            objc_setAssociatedObject(self, &statusBarStyledAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKey.statusBarStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             setNeedsStatusBarAppearanceUpdate()
         }
     }
@@ -138,13 +148,13 @@ extension UIViewController {
     // if you want shadowImage hidden,you can via hideShadowImage = true
     var isNavigationBarShadowImageHidden: Bool {
         get {
-            guard let isHidden = objc_getAssociatedObject(self, &isNavigationBarShadowImageHiddenAssociatedKey) as? Bool else {
+            guard let isHidden = objc_getAssociatedObject(self, &AssociatedKey.isNavigationBarShadowImageHidden) as? Bool else {
                 return false
             }
             return isHidden
         }
         set {
-            objc_setAssociatedObject(self, &isNavigationBarShadowImageHiddenAssociatedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKey.isNavigationBarShadowImageHidden, newValue, .OBJC_ASSOCIATION_ASSIGN)
             navigationController?.setNeedsNavigationBarUpdate(isShadowImageHidden: newValue)
         }
     }
@@ -167,7 +177,6 @@ extension UIViewController {
                               height: UIScreen.main.bounds.height-UIDevice.navigationBarBottom-UIDevice.tabBarHeight)
         let isBat = (viewFrame == maxFrame || viewFrame == midFrame || viewFrame == minFrame)
         let result = navigationController != nil && isBat
-        print("canUpdateNavigationBar:\(result)")
         return result
     }
 }

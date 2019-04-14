@@ -9,32 +9,37 @@
 import UIKit
 import ObjectiveC
 
-private var _backgroundViewAssociatedKey: UInt8 = 0
-private var _backgroundImageViewAssociatedKey: UInt8 = 0
+// MARK: - Associated Object
 
 extension UINavigationBar {
     
-    var backgroundView: UIView? {
+    private struct AssociatedKey {
+        
+        static var backgroundView: UInt8 = 0
+        static var backgroundImageView: UInt8 = 0
+    }
+    
+    private var backgroundView: UIView? {
         get {
-            guard let backgroundView = objc_getAssociatedObject(self, &_backgroundViewAssociatedKey) as? UIView else {
+            guard let backgroundView = objc_getAssociatedObject(self, &AssociatedKey.backgroundView) as? UIView else {
                 return nil
             }
             return backgroundView
         }
         set {
-            objc_setAssociatedObject(self, &_backgroundViewAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKey.backgroundView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
-    var backgroundImageView: UIImageView? {
+    private var backgroundImageView: UIImageView? {
         get {
-            guard let backgroundImageView = objc_getAssociatedObject(self, &_backgroundImageViewAssociatedKey) as? UIImageView else {
+            guard let backgroundImageView = objc_getAssociatedObject(self, &AssociatedKey.backgroundImageView) as? UIImageView else {
                 return nil
             }
             return backgroundImageView
         }
         set {
-            objc_setAssociatedObject(self, &_backgroundImageViewAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKey.backgroundImageView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
