@@ -85,7 +85,7 @@ extension NavigationBase where Base: UIViewController {
         }
     }
     
-    public var isBarShadowImageHidden: Bool {
+    public var isShadowImageHidden: Bool {
         get {
             swizzleMethod
             return base.isNavigationBarShadowImageHidden
