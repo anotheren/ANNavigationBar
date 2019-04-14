@@ -16,6 +16,7 @@ extension UINavigationBar {
     private struct AssociatedKey {
         
         static var backgroundView: UInt8 = 0
+        
         static var backgroundImageView: UInt8 = 0
     }
     

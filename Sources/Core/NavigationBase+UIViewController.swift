@@ -62,6 +62,18 @@ extension NavigationBase where Base: UIViewController {
         }
     }
     
+    @available(iOS 11.0, *)
+    public var barLargeTitleColor: UIColor {
+        get {
+            swizzleMethod
+            return base.navigationBarLargeTitleColor
+        }
+        nonmutating set {
+            swizzleMethod
+            base.navigationBarLargeTitleColor = newValue
+        }
+    }
+    
     public var statusBarStyle: UIStatusBarStyle {
         get {
             swizzleMethod

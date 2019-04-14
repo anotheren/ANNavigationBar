@@ -42,30 +42,57 @@ extension UINavigationController {
         navigationBar.titleTextAttributes?[.foregroundColor] = titleColor
     }
     
+    @available(iOS 11.0, *)
+    func setNeedsNavigationBarUpdate(largeTitleColor: UIColor) {
+        navigationBar.largeTitleTextAttributes?[.foregroundColor] = largeTitleColor
+    }
+    
     func updateNavigationBar(fromVC: UIViewController?, toVC: UIViewController?, percent: CGFloat) {
         // change NavigationBar.barTintColor
-        let fromBarTintColor = fromVC?.navigationBarBarTintColor ?? .white
-        let toBarTintColor = toVC?.navigationBarBarTintColor ?? .white
-        let newBarTintColor = NavigationHelper.middleColor(fromColor: fromBarTintColor, toColor: toBarTintColor, percent: percent)
+        let fromBarTintColor = fromVC?.navigationBarBarTintColor ?? .navigationBarBarTintColor
+        let toBarTintColor = toVC?.navigationBarBarTintColor ?? .navigationBarBarTintColor
+        let newBarTintColor = middleColor(fromColor: fromBarTintColor, toColor: toBarTintColor, percent: percent)
         setNeedsNavigationBarUpdate(barTintColor: newBarTintColor)
         
         // change NavigationBar.tintColor
-        let fromTintColor = fromVC?.navigationBarTintColor ?? .black
-        let toTintColor = toVC?.navigationBarTintColor ?? .black
-        let newTintColor = NavigationHelper.middleColor(fromColor: fromTintColor, toColor: toTintColor, percent: percent)
+        let fromTintColor = fromVC?.navigationBarTintColor ?? .navigationBarTintColor
+        let toTintColor = toVC?.navigationBarTintColor ?? .navigationBarTintColor
+        let newTintColor = middleColor(fromColor: fromTintColor, toColor: toTintColor, percent: percent)
         setNeedsNavigationBarUpdate(tintColor: newTintColor)
         
         // change NavigationBar.titleColor
-        let fromTitleColor = fromVC?.navigationBarTitleColor ?? .black
-        let toTitleColor = toVC?.navigationBarTitleColor ?? .black
-        let newTitleColor = NavigationHelper.middleColor(fromColor: fromTitleColor, toColor: toTitleColor, percent: percent)
+        let fromTitleColor = fromVC?.navigationBarTitleColor ?? .navigationBarTitleColor
+        let toTitleColor = toVC?.navigationBarTitleColor ?? .navigationBarTitleColor
+        let newTitleColor = middleColor(fromColor: fromTitleColor, toColor: toTitleColor, percent: percent)
         setNeedsNavigationBarUpdate(titleColor: newTitleColor)
+        
+        // change NavigationBar.largeTitleColor
+        if #available(iOS 11.0, *) {
+            let fromLargeTitleColor = fromVC?.navigationBarLargeTitleColor ?? .navigationBarLargeTitleColor
+            let toLargeTitleColor = toVC?.navigationBarLargeTitleColor ?? .navigationBarLargeTitleColor
+            let newLargeTitleColor = middleColor(fromColor: fromLargeTitleColor, toColor: toLargeTitleColor, percent: percent)
+            setNeedsNavigationBarUpdate(largeTitleColor: newLargeTitleColor)
+        }
         
         // change NavigationBar._UIBarBackground.alpha
         let fromBarBackgroundAlpha = fromVC?.navigationBarBackgroundAlpha ?? 1.0
         let toBarBackgroundAlpha = toVC?.navigationBarBackgroundAlpha ?? 1.0
-        let newBarBackgroundAlpha = NavigationHelper.middleValue(fromValue: fromBarBackgroundAlpha, toValue: toBarBackgroundAlpha, percent: percent)
+        let newBarBackgroundAlpha = middleValue(fromValue: fromBarBackgroundAlpha, toValue: toBarBackgroundAlpha, percent: percent)
         setNeedsNavigationBarUpdate(barBackgroundAlpha: newBarBackgroundAlpha)
+    }
+    
+    private func middleColor(fromColor: UIColor, toColor: UIColor, percent: CGFloat) -> UIColor {
+        let from = ColorComponents(color: fromColor)
+        let to = ColorComponents(color: toColor)
+        let newRed = middleValue(fromValue: from.red, toValue: to.red, percent: percent)
+        let newGreen = middleValue(fromValue: from.green, toValue: to.green, percent: percent)
+        let newBlue = middleValue(fromValue: from.blue, toValue: to.blue, percent: percent)
+        let newAlpha = middleValue(fromValue: from.alpha, toValue: to.alpha, percent: percent)
+        return UIColor(red: newRed, green: newGreen, blue: newBlue, alpha: newAlpha)
+    }
+    
+    private func middleValue(fromValue: CGFloat, toValue: CGFloat, percent: CGFloat) -> CGFloat {
+        return fromValue + (toValue - fromValue) * percent
     }
 }
 
@@ -193,7 +220,7 @@ extension UINavigationController: UINavigationBarDelegate {
     private func dealInteractionChanges(_ context: UIViewControllerTransitionCoordinatorContext) {
         
         func animations(for key: UITransitionContextViewControllerKey) {
-            let currentColor = context.viewController(forKey: key)?.navigationBarTintColor ?? .clear // TODO
+            let currentColor = context.viewController(forKey: key)?.navigationBarTintColor ?? .navigationBarTintColor
             let currentAlpha = context.viewController(forKey: key)?.navigationBarBackgroundAlpha ?? 1
             setNeedsNavigationBarUpdate(barTintColor: currentColor)
             setNeedsNavigationBarUpdate(barBackgroundAlpha: currentAlpha)

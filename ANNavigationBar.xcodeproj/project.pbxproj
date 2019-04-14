@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A00891B722633A2400DC55FC /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00891B622633A2400DC55FC /* Ex+UIColor.swift */; };
+		A00891B9226340ED00DC55FC /* ColorComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00891B8226340ED00DC55FC /* ColorComponents.swift */; };
 		A0263CB3224639EB00650135 /* ANNavigationBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A0263CA5224639EB00650135 /* ANNavigationBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0C42C98224688EF006DC383 /* NavigationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42C97224688EF006DC383 /* NavigationBase.swift */; };
 		A0C42C9A22468A79006DC383 /* NavigationCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42C9922468A79006DC383 /* NavigationCompatible.swift */; };
@@ -17,7 +18,6 @@
 		A0C42CA422471F7C006DC383 /* SwizzleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42CA322471F7C006DC383 /* SwizzleHelper.swift */; };
 		A0C42CA622472BB8006DC383 /* Ex+UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42CA522472BB7006DC383 /* Ex+UINavigationController.swift */; };
 		A0C42CAA22476B8B006DC383 /* NavigationBase+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42CA922476B8B006DC383 /* NavigationBase+UIViewController.swift */; };
-		A0C42CAC2247CB23006DC383 /* NavigationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C42CAB2247CB23006DC383 /* NavigationHelper.swift */; };
 		A0C4ECB02261B0A000BCB58C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4ECAF2261B0A000BCB58C /* AppDelegate.swift */; };
 		A0C4ECB22261B0A000BCB58C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4ECB12261B0A000BCB58C /* ViewController.swift */; };
 		A0C4ECB52261B0A000BCB58C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0C4ECB32261B0A000BCB58C /* Main.storyboard */; };
@@ -53,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		A00891B622633A2400DC55FC /* Ex+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
+		A00891B8226340ED00DC55FC /* ColorComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorComponents.swift; sourceTree = "<group>"; };
 		A0263CA2224639EB00650135 /* ANNavigationBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ANNavigationBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0263CA5224639EB00650135 /* ANNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANNavigationBar.h; sourceTree = "<group>"; };
 		A0263CA6224639EB00650135 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -66,7 +67,6 @@
 		A0C42CA322471F7C006DC383 /* SwizzleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwizzleHelper.swift; sourceTree = "<group>"; };
 		A0C42CA522472BB7006DC383 /* Ex+UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UINavigationController.swift"; sourceTree = "<group>"; };
 		A0C42CA922476B8B006DC383 /* NavigationBase+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBase+UIViewController.swift"; sourceTree = "<group>"; };
-		A0C42CAB2247CB23006DC383 /* NavigationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHelper.swift; sourceTree = "<group>"; };
 		A0C4ECAD2261B0A000BCB58C /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0C4ECAF2261B0A000BCB58C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0C4ECB12261B0A000BCB58C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				A0C42CA322471F7C006DC383 /* SwizzleHelper.swift */,
-				A0C42CAB2247CB23006DC383 /* NavigationHelper.swift */,
+				A00891B8226340ED00DC55FC /* ColorComponents.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -288,12 +288,12 @@
 				A0C42CA422471F7C006DC383 /* SwizzleHelper.swift in Sources */,
 				A0C42CA122468ED7006DC383 /* Ex+UIDevice.swift in Sources */,
 				A00891B722633A2400DC55FC /* Ex+UIColor.swift in Sources */,
+				A00891B9226340ED00DC55FC /* ColorComponents.swift in Sources */,
 				A0C42C9A22468A79006DC383 /* NavigationCompatible.swift in Sources */,
 				A0C42CAA22476B8B006DC383 /* NavigationBase+UIViewController.swift in Sources */,
 				A0C42C9F22468C14006DC383 /* Ex+UINavigationBar.swift in Sources */,
 				A0C42C9D22468AF8006DC383 /* Ex+UIViewController.swift in Sources */,
 				A0C42C98224688EF006DC383 /* NavigationBase.swift in Sources */,
-				A0C42CAC2247CB23006DC383 /* NavigationHelper.swift in Sources */,
 				A0C42CA622472BB8006DC383 /* Ex+UINavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

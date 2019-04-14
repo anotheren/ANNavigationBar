@@ -16,14 +16,24 @@ extension UIViewController {
     private struct AssociatedKey {
         
         static var isPushToCurrentViewControllerFinished: UInt8 = 0
+        
         static var isPushToNextViewControllerFinished: UInt8 = 0
         
         static var navigationBarBackgroundImage: UInt8 = 0
+        
         static var navigationBarBackgroundAlpha: UInt8 = 0
+        
         static var navigationBarBarTintColor: UInt8 = 0
+        
         static var navigationBarTintColor: UInt8 = 0
+        
         static var navigationBarTitleColor: UInt8 = 0
+        
+        @available(iOS 11.0, *)
+        static var navigationBarLargeTitleColor: UInt8 = 0
+        
         static var isNavigationBarShadowImageHidden: UInt8 = 0
+        
         static var statusBarStyle: UInt8 = 0
     }
     
@@ -53,7 +63,7 @@ extension UIViewController {
         }
     }
     
-    // you can set navigationBar backgroundImage
+    // navigationBar backgroundImage
     var navigationBarBackgroundImage: UIImage? {
         get {
             guard let backgroundImage = objc_getAssociatedObject(self, &AssociatedKey.navigationBarBackgroundImage) as? UIImage else {
@@ -117,6 +127,21 @@ extension UIViewController {
             objc_setAssociatedObject(self, &AssociatedKey.navigationBarTitleColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+    
+    // navigationBar largeTitleColor
+    @available(iOS 11.0, *)
+    var navigationBarLargeTitleColor: UIColor {
+        get {
+            guard let titleColor = objc_getAssociatedObject(self, &AssociatedKey.navigationBarLargeTitleColor) as? UIColor else {
+                return UIColor.navigationBarLargeTitleColor
+            }
+            return titleColor
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKey.navigationBarLargeTitleColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
     
     // statusBarStyle
     var statusBarStyle: UIStatusBarStyle {
